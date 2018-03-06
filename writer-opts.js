@@ -6,7 +6,7 @@ const resolve = require(`path`).resolve
 
 function getWriterOpts () {
     return {
-        transform: (commit) => {
+        transform: (commit, context) => {
             let emojiLength
 
             if (!commit.emoji || typeof commit.emoji !== `string`) {
@@ -20,18 +20,15 @@ function getWriterOpts () {
                 commit.hash = commit.hash.substring(0, 7)
             }
 
-            if (typeof commit.shortDesc === `string`) {
-                commit.shortDesc = commit.shortDesc.substring(
-                    0,
-                    72 - emojiLength,
-                )
+            if (typeof commit.subject === `string`) {
+                commit.subject = commit.subject.substring(0, 72 - emojiLength)
             }
 
             return commit
         },
         groupBy: `emoji`,
         commitGroupsSort: `title`,
-        commitsSort: [`emoji`, `shortDesc`],
+        commitsSort: [`emoji`, `subject`],
     }
 }
 
