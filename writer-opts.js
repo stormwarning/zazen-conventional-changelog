@@ -8,9 +8,38 @@ function getWriterOpts () {
     return {
         transform: (commit, context) => {
             let emojiLength
+            let discard = true
+            const issues = []
+
+            commit.notes.forEach((note) => {
+                note.title = `:bomb:`
+                discard = false
+            })
 
             if (!commit.emoji || typeof commit.emoji !== `string`) {
                 return
+            }
+
+            if (commit.emoji === `feat`) {
+                commit.type = `Features`
+            } else if (commit.type === `fix`) {
+                commit.type = `Bug Fixes`
+            } else if (commit.type === `perf`) {
+                commit.type = `Performance Improvements`
+            } else if (commit.type === `revert`) {
+                commit.type = `Reverts`
+            } else if (discard) {
+                return
+            } else if (commit.type === `docs`) {
+                commit.type = `Documentation`
+            } else if (commit.type === `style`) {
+                commit.type = `Styles`
+            } else if (commit.type === `refactor`) {
+                commit.type = `Code Refactoring`
+            } else if (commit.type === `test`) {
+                commit.type = `Tests`
+            } else if (commit.type === `chore`) {
+                commit.type = `Chores`
             }
 
             commit.emoji = commit.emoji.substring(0, 72)
