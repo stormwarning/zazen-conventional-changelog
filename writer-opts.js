@@ -29,7 +29,7 @@ function getWriterOpts () {
                 note.title = `BREAKING CHANGES`
             })
 
-            if (availableTypes[currentEmoji].level) {
+            if (availableTypes[currentEmoji]) {
                 commit.type =
                     capitalize(availableTypes[currentEmoji].level) + ' changes'
             } else {
