@@ -1,45 +1,43 @@
 'use strict'
 
-const Q = require(`q`)
-const readFile = Q.denodeify(require(`fs`).readFile)
 const resolve = require(`path`).resolve
+
+const compareFunc = require(`compare-func`)
+const Q = require(`q`)
+const capitalize = require('lodash.capitalize')
+const availableTypes = require('@zazen/commit-types').types
+
+const readFile = Q.denodeify(require(`fs`).readFile)
 
 function getWriterOpts () {
     return {
         transform: (commit, context) => {
-            let emojiLength
-            let discard = true
             const issues = []
+            const currentEmoji = commit.emoji
 
-            commit.notes.forEach((note) => {
-                note.title = `:bomb:`
-                discard = false
-            })
+            let emojiLength
+
+            // if (availableTypes) {
+            //     console.log('object →', availableTypes[currentEmoji])
+            // }
 
             if (!commit.emoji || typeof commit.emoji !== `string`) {
                 return
             }
 
-            if (commit.emoji === `feat`) {
-                commit.type = `Features`
-            } else if (commit.type === `fix`) {
-                commit.type = `Bug Fixes`
-            } else if (commit.type === `perf`) {
-                commit.type = `Performance Improvements`
-            } else if (commit.type === `revert`) {
-                commit.type = `Reverts`
-            } else if (discard) {
-                return
-            } else if (commit.type === `docs`) {
-                commit.type = `Documentation`
-            } else if (commit.type === `style`) {
-                commit.type = `Styles`
-            } else if (commit.type === `refactor`) {
-                commit.type = `Code Refactoring`
-            } else if (commit.type === `test`) {
-                commit.type = `Tests`
-            } else if (commit.type === `chore`) {
-                commit.type = `Chores`
+            commit.notes.forEach((note) => {
+                note.title = `BREAKING CHANGES`
+            })
+
+            if (availableTypes[currentEmoji].level) {
+                commit.type =
+                    capitalize(availableTypes[currentEmoji].level) + ' changes'
+            } else {
+                commit.type = 'Other changes'
+            }
+
+            if (commit.scope === `*`) {
+                commit.scope = ``
             }
 
             commit.emoji = commit.emoji.substring(0, 72)
@@ -51,13 +49,48 @@ function getWriterOpts () {
 
             if (typeof commit.subject === `string`) {
                 commit.subject = commit.subject.substring(0, 72 - emojiLength)
+
+                let url = context.repository
+                    ? `${context.host}/${context.owner}/${context.repository}`
+                    : context.repoUrl
+
+                if (url) {
+                    url = `${url}/issues/`
+                    // Issue URLs.
+                    commit.subject = commit.subject.replace(
+                        /#([0-9]+)/g,
+                        (_, issue) => {
+                            issues.push(issue)
+                            return `[#${issue}](${url}${issue})`
+                        },
+                    )
+                }
+
+                if (context.host) {
+                    // User URLs.
+                    commit.subject = commit.subject.replace(
+                        /\B@([a-z0-9](?:-?[a-z0-9]){0,38})/g,
+                        `[@$1](${context.host}/$1)`,
+                    )
+                }
             }
+
+            // Remove references that already appear in the subject.
+            commit.references = commit.references.filter((reference) => {
+                if (issues.indexOf(reference.issue) === -1) {
+                    return true
+                }
+
+                return false
+            })
 
             return commit
         },
-        groupBy: `emoji`,
-        commitGroupsSort: `title`,
-        commitsSort: [`emoji`, `subject`],
+        groupBy: `type`,
+        commitGroupsSort: `emoji`,
+        commitsSort: [`scope`, `subject`],
+        noteGroupsSort: `emoji`,
+        notesSort: compareFunc,
     }
 }
 
@@ -65,12 +98,14 @@ module.exports = Q.all([
     readFile(resolve(__dirname, `./templates/template.hbs`), `utf-8`),
     readFile(resolve(__dirname, `./templates/header.hbs`), `utf-8`),
     readFile(resolve(__dirname, `./templates/commit.hbs`), `utf-8`),
-]).spread((template, header, commit) => {
+    readFile(resolve(__dirname, `./templates/footer.hbs`), `utf-8`),
+]).spread((template, header, commit, footer) => {
     const writerOpts = getWriterOpts()
 
     writerOpts.mainTemplate = template
     writerOpts.headerPartial = header
     writerOpts.commitPartial = commit
+    writerOpts.footerPartial = footer
 
     return writerOpts
 })
