@@ -35,7 +35,7 @@ betterThanBefore.setups([
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([':hammer:(ngOptions) make it faster', ' closes #1, #2'])
-        gitDummyCommit(':hammer:(ngOptions) bad commit') // Add rewind emoji
+        gitDummyCommit(':rewind:(ngOptions) bad commit')
         gitDummyCommit(':bug: oops')
     },
     function () {
@@ -63,17 +63,16 @@ betterThanBefore.setups([
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([
-            ':hammer: more tests', // Add test emoji
+            ':rotating_light: more tests',
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([
-            ':hammer:(deps) bump', // Add package emoji
+            ':package: bump',
             'BREAKING CHANGE: The Change is huge.',
         ])
     },
     function () {
-        // Add package emoji
-        gitDummyCommit([':gift:(deps) bump', 'BREAKING CHANGES: Also works :)'])
+        gitDummyCommit([':package: bump', 'BREAKING CHANGES: Also works :)'])
     },
     function () {
         shell.exec('git tag v1.0.0')
