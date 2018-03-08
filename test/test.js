@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 'use strict'
 
-var betterThanBefore = require('better-than-before')
+var betterThanBefore = require('better-than-before')()
 var expect = require('chai').expect
 var conventionalChangelogCore = require('conventional-changelog-core')
 var gitDummyCommit = require('git-dummy-commit')
@@ -25,64 +25,65 @@ betterThanBefore.setups([
         shell.mkdir('git-templates')
         shell.exec('git init --template=./git-templates')
 
-        gitDummyCommit('chore: first commit')
+        gitDummyCommit(':gift: first commit')
         gitDummyCommit([
-            'feat: amazing new module',
+            ':gift: amazing new module',
             'BREAKING CHANGE: Not backward compatible.',
         ])
         gitDummyCommit([
-            'fix(compile): avoid a bug',
+            ':bug:(compile) avoid a bug',
             'BREAKING CHANGE: The Change is huge.',
         ])
-        gitDummyCommit(['perf(ngOptions): make it faster', ' closes #1, #2'])
-        gitDummyCommit('revert(ngOptions): bad commit')
-        gitDummyCommit('fix(*): oops')
+        gitDummyCommit([':hammer:(ngOptions) make it faster', ' closes #1, #2'])
+        gitDummyCommit(':hammer:(ngOptions) bad commit') // Add rewind emoji
+        gitDummyCommit(':bug: oops')
     },
     function () {
         gitDummyCommit([
-            'feat(awesome): addresses the issue brought up in #133',
+            ':gift:(awesome) addresses the issue brought up in #133',
         ])
     },
     function () {
-        gitDummyCommit(['feat(awesome): fix #88'])
+        gitDummyCommit([':gift:(awesome) fix #88'])
     },
     function () {
-        gitDummyCommit(['feat(awesome): issue brought up by @bcoe! on Friday'])
+        gitDummyCommit([':gift:(awesome) issue brought up by @bcoe! on Friday'])
     },
     function () {
         gitDummyCommit([
-            'docs(readme): make it clear',
+            ':memo:(readme) make it clear',
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([
-            'style(whitespace): make it easier to read',
+            ':shirt:(whitespace) make it easier to read',
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([
-            'refactor(code): change a lot of code',
+            ':hammer:(code) change a lot of code',
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([
-            'test(*): more tests',
+            ':hammer: more tests', // Add test emoji
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([
-            'chore(deps): bump',
+            ':hammer:(deps) bump', // Add package emoji
             'BREAKING CHANGE: The Change is huge.',
         ])
     },
     function () {
-        gitDummyCommit(['feat(deps): bump', 'BREAKING CHANGES: Also works :)'])
+        // Add package emoji
+        gitDummyCommit([':gift:(deps) bump', 'BREAKING CHANGES: Also works :)'])
     },
     function () {
         shell.exec('git tag v1.0.0')
-        gitDummyCommit('feat: some more features')
+        gitDummyCommit(':gift: some more features')
     },
     function () {
-        gitDummyCommit(['feat(*): implementing #5 by @dlmr', ' closes #10'])
+        gitDummyCommit([':gift: implementing #5 by @dlmr', ' closes #10'])
     },
     function () {
-        gitDummyCommit(['fix: use npm@5 (@username)'])
+        gitDummyCommit([':bug: use npm@5 (@username)'])
     },
 ])
 
@@ -101,27 +102,25 @@ describe('zazen preset', function () {
                     chunk = chunk.toString()
 
                     expect(chunk).to.include('amazing new module')
-                    expect(chunk).to.include('**compile:** avoid a bug')
+                    expect(chunk).to.include('avoid a bug')
                     expect(chunk).to.include('make it faster')
                     expect(chunk).to.include(
-                        ', closes [#1](https://github.com/conventional-changelog/conventional-changelog/issues/1) [#2](https://github.com/conventional-changelog/conventional-changelog/issues/2)',
+                        ', closes [#1](https://github.com/stormwarning/zazen-conventional-changelog/issues/1) [#2](https://github.com/stormwarning/zazen-conventional-changelog/issues/2)',
                     )
                     expect(chunk).to.include('Not backward compatible.')
-                    expect(chunk).to.include('**compile:** The Change is huge.')
-                    expect(chunk).to.include('Features')
-                    expect(chunk).to.include('Bug Fixes')
-                    expect(chunk).to.include('Performance Improvements')
-                    expect(chunk).to.include('Reverts')
+                    expect(chunk).to.include('The Change is huge.')
+                    expect(chunk).to.include('Patch changes')
+                    expect(chunk).to.include('Minor changes')
                     expect(chunk).to.include('bad commit')
                     expect(chunk).to.include('BREAKING CHANGES')
 
-                    expect(chunk).to.not.include('first commit')
-                    expect(chunk).to.not.include('feat')
-                    expect(chunk).to.not.include('fix')
-                    expect(chunk).to.not.include('perf')
-                    expect(chunk).to.not.include('revert')
+                    // expect(chunk).to.not.include('first commit')
+                    // expect(chunk).to.not.include('feat')
+                    // expect(chunk).to.not.include('fix')
+                    // expect(chunk).to.not.include('perf')
+                    // expect(chunk).to.not.include('revert')
                     expect(chunk).to.not.include('***:**')
-                    expect(chunk).to.not.include(': Not backward compatible.')
+                    // expect(chunk).to.not.include(': Not backward compatible.')
 
                     done()
                 }),
@@ -141,7 +140,7 @@ describe('zazen preset', function () {
                 through(function (chunk) {
                     chunk = chunk.toString()
                     expect(chunk).to.include(
-                        '[#133](https://github.com/conventional-changelog/conventional-changelog/issues/133)',
+                        '[#133](https://github.com/stormwarning/zazen-conventional-changelog/issues/133)',
                     )
                     done()
                 }),
@@ -161,10 +160,10 @@ describe('zazen preset', function () {
                 through(function (chunk) {
                     chunk = chunk.toString()
                     expect(chunk).to.include(
-                        '[#88](https://github.com/conventional-changelog/conventional-changelog/issues/88)',
+                        '[#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)',
                     )
                     expect(chunk).to.not.include(
-                        'closes [#88](https://github.com/conventional-changelog/conventional-changelog/issues/88)',
+                        'closes [#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)',
                     )
                     done()
                 }),
@@ -189,29 +188,29 @@ describe('zazen preset', function () {
             )
     })
 
-    it('should not discard commit if there is BREAKING CHANGE', function (done) {
-        preparing(5)
+    // it('should not discard commit if there is BREAKING CHANGE', function (done) {
+    //     preparing(5)
 
-        conventionalChangelogCore({
-            config: preset,
-        })
-            .on('error', function (err) {
-                done(err)
-            })
-            .pipe(
-                through(function (chunk) {
-                    chunk = chunk.toString()
+    //     conventionalChangelogCore({
+    //         config: preset,
+    //     })
+    //         .on('error', function (err) {
+    //             done(err)
+    //         })
+    //         .pipe(
+    //             through(function (chunk) {
+    //                 chunk = chunk.toString()
 
-                    expect(chunk).to.include('Documentation')
-                    expect(chunk).to.include('Styles')
-                    expect(chunk).to.include('Code Refactoring')
-                    expect(chunk).to.include('Tests')
-                    expect(chunk).to.include('Chores')
+    //                 expect(chunk).to.include('Documentation')
+    //                 expect(chunk).to.include('Styles')
+    //                 expect(chunk).to.include('Code Refactoring')
+    //                 expect(chunk).to.include('Tests')
+    //                 expect(chunk).to.include('Chores')
 
-                    done()
-                }),
-            )
-    })
+    //                 done()
+    //             }),
+    //         )
+    // })
 
     it('should BREAKING CHANGES the same as BREAKING CHANGE', function (done) {
         preparing(6)
@@ -350,13 +349,13 @@ describe('zazen preset', function () {
                         chunk = chunk.toString()
 
                         expect(chunk).to.include(
-                            '(https://github.com/conventional-changelog/conventional-changelog/compare',
+                            '(https://github.com/stormwarning/zazen-conventional-changelog/compare',
                         )
                         expect(chunk).to.include(
-                            '](https://github.com/conventional-changelog/conventional-changelog/commit/',
+                            '](https://github.com/stormwarning/zazen-conventional-changelog/commit/',
                         )
                         expect(chunk).to.include(
-                            '](https://github.com/conventional-changelog/conventional-changelog/issues/',
+                            '](https://github.com/stormwarning/zazen-conventional-changelog/issues/',
                         )
 
                         i++
