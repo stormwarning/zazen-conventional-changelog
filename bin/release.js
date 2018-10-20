@@ -20,8 +20,8 @@ function outputChangelog (args, newVersion) {
 
         var header = `# Change Log
 
-[![Keep a Changelog][img-changelog]][url-changelog]
-[![Semantic Versioning][img-semver]][url-semver]
+[![Keep a Changelog](https://img.shields.io/badge/keep%20a-changelog-ef5e39.svg?style=flat-square)](https://keepachangelog.com)
+[![Semantic Versioning](https://img.shields.io/badge/semantic-versioning-333333.svg?style=flat-square)](https://semver.org)
 
 All notable changes to this project will be documented in this file.
 `
@@ -42,7 +42,6 @@ All notable changes to this project will be documented in this file.
 
         var changelogStream = conventionalChangelog(
             {
-                // preset: 'angular',
                 config,
             },
             context,
