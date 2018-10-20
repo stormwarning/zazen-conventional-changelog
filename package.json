@@ -1,11 +1,29 @@
 {
   "name": "@zazen/conventional-changelog",
-  "version": "0.0.0",
-  "description": "My classy project.",
-  "homepage": "https://github.com/stormwarning/zazen-conventional-changelog",
+  "description": "Generate a change log, free of weariness and confusion",
+  "license": "ISC",
   "author": "Jeff <rustyangel@gmail.com> (https://tidaltheory.co)",
+  "homepage": "https://github.com/stormwarning/zazen-conventional-changelog",
+  "repository": "stormwarning/zazen-conventional-changelog",
+  "version": "0.0.0",
   "bin": {
     "release-notes": "bin/cli.js"
+  },
+  "files": [
+    "conventional-changelog.js",
+    "conventional-recommended-bump.js",
+    "index.js",
+    "parser-opts.js",
+    "templates",
+    "writer-opts.js"
+  ],
+  "scripts": {
+    "_precommit": "lint-staged && npm test",
+    "lint": "npm-run-all lint:*",
+    "lint:markdown": "remark . -qo",
+    "lint:scripts": "prettier-eslint '**/*.js' --write --list-different",
+    "release": "bin/cli.js",
+    "test": "mocha --timeout=30000"
   },
   "dependencies": {
     "@zazen/commit-types": "^1.1.0",
@@ -37,22 +55,13 @@
     "shelljs": "^0.8.1",
     "through2": "^2.0.3"
   },
-  "files": [
-    "conventional-changelog.js",
-    "conventional-recommended-bump.js",
-    "index.js",
-    "parser-opts.js",
-    "writer-opts.js",
-    "templates"
-  ],
   "keywords": [
     "conventional-changelog",
     "preset"
   ],
-  "license": "MIT",
   "lint-staged": {
-    "*.{js|json}": [
-      "prettier-eslint --list-different",
+    "*.js": [
+      "prettier-eslint --write",
       "git add"
     ],
     "*.md": [
@@ -84,14 +93,5 @@
       "strong": "*",
       "emphasis": "*"
     }
-  },
-  "repository": "stormwarning/zazen-conventional-changelog",
-  "scripts": {
-    "lint": "npm-run-all lint:*",
-    "lint:markdown": "remark . -qo",
-    "lint:scripts": "prettier-eslint '**/*.js' --write --list-different",
-    "_precommit": "lint-staged && npm test",
-    "release": "bin/cli.js",
-    "test": "mocha --timeout=30000"
   }
 }
