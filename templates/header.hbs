@@ -1,8 +1,8 @@
 <a name="{{version}}"></a>
 {{#if isPatch~}}
-  ##
+  ###
 {{~else~}}
-  #
+  ##
 {{~/if}} {{#if @root.linkCompare~}}
   [{{version}}](
   {{~#if @root.repository~}}
@@ -22,5 +22,5 @@
 {{~/if}}
 {{~#if title}} "{{title}}"
 {{~/if}}
-{{~#if date}} ({{date}})
-{{/if}}
+{{~#if date}} — {{date}}
+{{~/if}}

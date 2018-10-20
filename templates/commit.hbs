@@ -1,9 +1,8 @@
--{{#if emoji}} {{emoji}}
-{{~/if}}{{#if scope}} **{{scope}}:**
-{{~/if}} {{#if subject}}
-  {{~subject}}
-{{~else}}
-  {{~header}}
+-
+{{~#if emoji}} {{emoji}}{{/if}}
+{{~#if scope}} **{{scope}}:**{{/if}}
+{{~#if subject}} {{subject}}
+{{~else}} {{header}}
 {{~/if}}
 
 {{~!-- commit link --}} {{#if @root.linkReferences~}}
