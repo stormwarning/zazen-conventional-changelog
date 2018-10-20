@@ -9,6 +9,13 @@ const availableTypes = require('@zazen/commit-types').types
 
 const readFile = Q.denodeify(require(`fs`).readFile)
 
+const sections = {
+    major: 'a',
+    minor: 'b',
+    patch: 'c',
+    other: 'd',
+}
+
 function getWriterOpts () {
     return {
         transform: (commit, context) => {
@@ -32,8 +39,10 @@ function getWriterOpts () {
             if (availableTypes[currentEmoji]) {
                 commit.type =
                     capitalize(availableTypes[currentEmoji].level) + ' changes'
+                commit.section = sections[availableTypes[currentEmoji].level]
             } else {
                 commit.type = 'Other changes'
+                commit.section = 'd'
             }
 
             if (commit.scope === `*`) {
@@ -87,8 +96,8 @@ function getWriterOpts () {
             return commit
         },
         groupBy: `type`,
-        commitGroupsSort: `emoji`,
-        commitsSort: [`scope`, `subject`],
+        commitGroupsSort: `title`,
+        commitsSort: [`scope`, `emoji`, `subject`],
         noteGroupsSort: `emoji`,
         notesSort: compareFunc,
     }
