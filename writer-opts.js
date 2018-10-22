@@ -91,7 +91,7 @@ function getWriterOpts () {
         },
         groupBy: `type`,
         commitGroupsSort: typeGroups,
-        commitsSort: [`scope`, `emoji`, `message`],
+        commitsSort: [`scope`, `hash`, `message`],
         noteGroupsSort: `emoji`,
         notesSort: compareFunc,
     }
