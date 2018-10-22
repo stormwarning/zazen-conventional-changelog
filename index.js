@@ -20,12 +20,12 @@ function presetOpts (cb) {
             recommendedBumpOpts,
             writerOpts
         ) => {
-            cb(null, {
+            return {
                 conventionalChangelog,
                 parserOpts,
                 recommendedBumpOpts,
                 writerOpts,
-            })
+            }
         }
     )
 }
