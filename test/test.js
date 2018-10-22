@@ -104,7 +104,7 @@ describe('zazen preset', function () {
                     expect(chunk).to.include('avoid a bug')
                     expect(chunk).to.include('make it faster')
                     expect(chunk).to.include(
-                        ', closes [#1](https://github.com/stormwarning/zazen-conventional-changelog/issues/1) [#2](https://github.com/stormwarning/zazen-conventional-changelog/issues/2)',
+                        ', closes [#1](https://github.com/stormwarning/zazen-conventional-changelog/issues/1) [#2](https://github.com/stormwarning/zazen-conventional-changelog/issues/2)'
                     )
                     expect(chunk).to.include('Not backward compatible.')
                     expect(chunk).to.include('The Change is huge.')
@@ -122,7 +122,7 @@ describe('zazen preset', function () {
                     // expect(chunk).to.not.include(': Not backward compatible.')
 
                     done()
-                }),
+                })
             )
     })
 
@@ -139,10 +139,10 @@ describe('zazen preset', function () {
                 through(function (chunk) {
                     chunk = chunk.toString()
                     expect(chunk).to.include(
-                        '[#133](https://github.com/stormwarning/zazen-conventional-changelog/issues/133)',
+                        '[#133](https://github.com/stormwarning/zazen-conventional-changelog/issues/133)'
                     )
                     done()
-                }),
+                })
             )
     })
 
@@ -159,13 +159,13 @@ describe('zazen preset', function () {
                 through(function (chunk) {
                     chunk = chunk.toString()
                     expect(chunk).to.include(
-                        '[#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)',
+                        '[#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)'
                     )
                     expect(chunk).to.not.include(
-                        'closes [#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)',
+                        'closes [#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)'
                     )
                     done()
-                }),
+                })
             )
     })
 
@@ -183,7 +183,7 @@ describe('zazen preset', function () {
                     chunk = chunk.toString()
                     expect(chunk).to.include('[@bcoe](https://github.com/bcoe)')
                     done()
-                }),
+                })
             )
     })
 
@@ -227,7 +227,7 @@ describe('zazen preset', function () {
                     expect(chunk).to.include('Also works :)')
 
                     done()
-                }),
+                })
             )
     })
 
@@ -256,8 +256,8 @@ describe('zazen preset', function () {
                     function () {
                         expect(i).to.equal(1)
                         done()
-                    },
-                ),
+                    }
+                )
             )
     })
 
@@ -288,8 +288,8 @@ describe('zazen preset', function () {
                     function () {
                         expect(i).to.equal(1)
                         done()
-                    },
-                ),
+                    }
+                )
             )
     })
 
@@ -312,13 +312,13 @@ describe('zazen preset', function () {
                         chunk = chunk.toString()
 
                         expect(chunk).to.include(
-                            '(https://github.com/conventional-changelog/example/compare',
+                            '(https://github.com/conventional-changelog/example/compare'
                         )
                         expect(chunk).to.include(
-                            '](https://github.com/conventional-changelog/example/commit/',
+                            '](https://github.com/conventional-changelog/example/commit/'
                         )
                         expect(chunk).to.include(
-                            '](https://github.com/conventional-changelog/example/issues/',
+                            '](https://github.com/conventional-changelog/example/issues/'
                         )
 
                         i++
@@ -327,8 +327,8 @@ describe('zazen preset', function () {
                     function () {
                         expect(i).to.equal(1)
                         done()
-                    },
-                ),
+                    }
+                )
             )
     })
 
@@ -348,13 +348,13 @@ describe('zazen preset', function () {
                         chunk = chunk.toString()
 
                         expect(chunk).to.include(
-                            '(https://github.com/stormwarning/zazen-conventional-changelog/compare',
+                            '(https://github.com/stormwarning/zazen-conventional-changelog/compare'
                         )
                         expect(chunk).to.include(
-                            '](https://github.com/stormwarning/zazen-conventional-changelog/commit/',
+                            '](https://github.com/stormwarning/zazen-conventional-changelog/commit/'
                         )
                         expect(chunk).to.include(
-                            '](https://github.com/stormwarning/zazen-conventional-changelog/issues/',
+                            '](https://github.com/stormwarning/zazen-conventional-changelog/issues/'
                         )
 
                         i++
@@ -363,8 +363,8 @@ describe('zazen preset', function () {
                     function () {
                         expect(i).to.equal(1)
                         done()
-                    },
-                ),
+                    }
+                )
             )
     })
 
@@ -385,23 +385,23 @@ describe('zazen preset', function () {
                     chunk = chunk.toString()
 
                     expect(chunk).to.include(
-                        '(https://github.internal.example.com/dlmr',
+                        '(https://github.internal.example.com/dlmr'
                     )
                     expect(chunk).to.include(
-                        '(https://github.internal.example.com/conventional-changelog/internal/compare',
+                        '(https://github.internal.example.com/conventional-changelog/internal/compare'
                     )
                     expect(chunk).to.include(
-                        '](https://github.internal.example.com/conventional-changelog/internal/commit/',
+                        '](https://github.internal.example.com/conventional-changelog/internal/commit/'
                     )
                     expect(chunk).to.include(
-                        '5](https://github.internal.example.com/conventional-changelog/internal/issues/5',
+                        '5](https://github.internal.example.com/conventional-changelog/internal/issues/5'
                     )
                     expect(chunk).to.include(
-                        ' closes [#10](https://github.internal.example.com/conventional-changelog/internal/issues/10)',
+                        ' closes [#10](https://github.internal.example.com/conventional-changelog/internal/issues/10)'
                     )
 
                     done()
-                }),
+                })
             )
     })
 
@@ -422,7 +422,7 @@ describe('zazen preset', function () {
                     expect(chunk).to.include('(https://github.com/username')
 
                     done()
-                }),
+                })
             )
     })
 })

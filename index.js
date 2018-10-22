@@ -18,7 +18,7 @@ function presetOpts (cb) {
             conventionalChangelog,
             parserOpts,
             recommendedBumpOpts,
-            writerOpts,
+            writerOpts
         ) => {
             cb(null, {
                 conventionalChangelog,
@@ -26,7 +26,7 @@ function presetOpts (cb) {
                 recommendedBumpOpts,
                 writerOpts,
             })
-        },
+        }
     )
 }
 

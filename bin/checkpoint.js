@@ -18,9 +18,9 @@ module.exports = function (argv, msg, args, figure) {
                     [msg].concat(
                         args.map(function (arg) {
                             return chalk.bold(arg)
-                        }),
-                    ),
-                ),
+                        })
+                    )
+                )
         )
     }
 }

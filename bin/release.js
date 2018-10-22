@@ -45,7 +45,7 @@ All notable changes to this project will be documented in this file.
                 config,
             },
             context,
-            { merges: null },
+            { merges: null }
         ).on('error', function (err) {
             return reject(err)
         })
@@ -64,9 +64,7 @@ All notable changes to this project will be documented in this file.
                 writeFile(
                     args,
                     args.infile,
-                    header +
-                        '\n' +
-                        (content + oldContent).replace(/\n+$/, '\n'),
+                    header + '\n' + (content + oldContent).replace(/\n+$/, '\n')
                 )
             }
 
