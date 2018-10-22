@@ -17,12 +17,6 @@ const typeGroups = [
     'Fixed',
     'Security',
 ]
-const sections = {
-    major: 'a',
-    minor: 'b',
-    patch: 'c',
-    other: 'd',
-}
 
 function getWriterOpts () {
     return {
@@ -30,10 +24,6 @@ function getWriterOpts () {
             let currentEmoji = commit.emoji
             let issues = []
             let emojiLength
-
-            // if (availableTypes) {
-            //     console.log('object →', availableTypes[currentEmoji])
-            // }
 
             if (!commit.emoji || typeof commit.emoji !== `string`) {
                 return
@@ -44,12 +34,9 @@ function getWriterOpts () {
             })
 
             if (availableTypes[currentEmoji]) {
-                commit.type =
-                    capitalize(availableTypes[currentEmoji].level) + ' changes'
-                commit.section = sections[availableTypes[currentEmoji].level]
+                commit.type = capitalize(availableTypes[currentEmoji].group)
             } else {
-                commit.type = 'Other changes'
-                commit.section = 'd'
+                commit.type = 'Other updates'
             }
 
             if (commit.scope === `*`) {
@@ -116,7 +103,7 @@ module.exports = Q.all([
     readFile(resolve(__dirname, `./templates/commit.hbs`), `utf-8`),
     readFile(resolve(__dirname, `./templates/footer.hbs`), `utf-8`),
 ]).spread((template, header, commit, footer) => {
-    const writerOpts = getWriterOpts()
+    let writerOpts = getWriterOpts()
 
     writerOpts.mainTemplate = template
     writerOpts.headerPartial = header
