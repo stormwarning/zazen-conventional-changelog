@@ -9,6 +9,14 @@ const availableTypes = require('@zazen/commit-types').types
 
 const readFile = Q.denodeify(require(`fs`).readFile)
 
+const typeGroups = [
+    'Removed',
+    'Deprecated',
+    'Changed',
+    'Added',
+    'Fixed',
+    'Security',
+]
 const sections = {
     major: 'a',
     minor: 'b',
@@ -19,9 +27,8 @@ const sections = {
 function getWriterOpts () {
     return {
         transform: (commit, context) => {
-            const issues = []
-            const currentEmoji = commit.emoji
-
+            let currentEmoji = commit.emoji
+            let issues = []
             let emojiLength
 
             // if (availableTypes) {
@@ -56,8 +63,8 @@ function getWriterOpts () {
                 commit.hash = commit.hash.substring(0, 7)
             }
 
-            if (typeof commit.subject === `string`) {
-                commit.subject = commit.subject.substring(0, 72 - emojiLength)
+            if (typeof commit.message === `string`) {
+                commit.message = commit.message.substring(0, 72 - emojiLength)
 
                 let url = context.repository
                     ? `${context.host}/${context.owner}/${context.repository}`
@@ -66,25 +73,25 @@ function getWriterOpts () {
                 if (url) {
                     url = `${url}/issues/`
                     // Issue URLs.
-                    commit.subject = commit.subject.replace(
+                    commit.message = commit.message.replace(
                         /#([0-9]+)/g,
                         (_, issue) => {
                             issues.push(issue)
                             return `[#${issue}](${url}${issue})`
-                        },
+                        }
                     )
                 }
 
                 if (context.host) {
                     // User URLs.
-                    commit.subject = commit.subject.replace(
+                    commit.message = commit.message.replace(
                         /\B@([a-z0-9](?:-?[a-z0-9]){0,38})/g,
-                        `[@$1](${context.host}/$1)`,
+                        `[@$1](${context.host}/$1)`
                     )
                 }
             }
 
-            // Remove references that already appear in the subject.
+            // Remove references that already appear in the message.
             commit.references = commit.references.filter((reference) => {
                 if (issues.indexOf(reference.issue) === -1) {
                     return true
@@ -96,8 +103,8 @@ function getWriterOpts () {
             return commit
         },
         groupBy: `type`,
-        commitGroupsSort: `title`,
-        commitsSort: [`scope`, `emoji`, `subject`],
+        commitGroupsSort: typeGroups,
+        commitsSort: [`scope`, `emoji`, `message`],
         noteGroupsSort: `emoji`,
         notesSort: compareFunc,
     }
