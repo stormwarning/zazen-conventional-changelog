@@ -25,7 +25,7 @@
     "test": "mocha --timeout=30000"
   },
   "dependencies": {
-    "@zazen/commit-types": "^1.1.0",
+    "@zazen/commit-types": "^2.0.0",
     "chalk": "^2.4.1",
     "compare-func": "^1.3.2",
     "conventional-changelog": "^2.0.3",
@@ -46,7 +46,7 @@
     "lint-staged": "^7.3.0",
     "mocha": "^5.2.0",
     "npm-run-all": "^4.1.3",
-    "remark-cli": "^5.0.0",
+    "remark-cli": "^6.0.0",
     "remark-contributors": "^3.1.0",
     "remark-github": "^7.0.4",
     "remark-preset-lint-markdown-style-guide": "^2.1.2",
