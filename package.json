@@ -60,16 +60,12 @@
   ],
   "husky": {
     "hooks": {
-      "_pre-commit": "lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "*.js": [
       "prettier-eslint --write",
-      "git add"
-    ],
-    "*.md": [
-      "remark . -qo",
       "git add"
     ]
   },
