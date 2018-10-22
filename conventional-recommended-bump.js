@@ -10,8 +10,9 @@ module.exports = {
             if (commit.notes.length > 0) {
                 breakings += commit.notes.length
                 level = 0
-            } else if (commit.emoji === `:gift:`) {
+            } else if (commit.emoji === `🎁` || commit.emoji === `🔥`) {
                 features += 1
+
                 if (level === 2) {
                     level = 1
                 }
@@ -25,10 +26,10 @@ module.exports = {
     },
 
     parserOpts: {
-        headerPattern: /^(:.*?:)(?:\((.*)\))?:? (.*)$/,
-        headerCorrespondence: [`emoji`, `scope`, `subject`],
-        noteKeywords: [`BREAKING CHANGE`, `BREAKING CHANGES`, `:bomb:`],
-        revertPattern: /^:rewind:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
+        headerPattern: /^(.{1}) (.*)$/u,
+        headerCorrespondence: [`emoji`, `message`],
+        noteKeywords: [`BREAKING CHANGE`, `BREAKING CHANGES`, `💣`],
+        revertPattern: /^⏪\s([\s\S]*?)\s*This reverts commit (\w*)\./u,
         revertCorrespondence: [`header`, `hash`],
     },
 }

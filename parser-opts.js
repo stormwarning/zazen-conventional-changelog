@@ -1,9 +1,9 @@
 'use strict'
 
 module.exports = {
-    headerPattern: /^(:.*?:)(?:\((.*)\))?:?( )(.*)$/,
-    headerCorrespondence: [`emoji`, `scope`, `section`, `subject`],
-    noteKeywords: [`BREAKING CHANGE`, `BREAKING CHANGES`, `:bomb:`],
-    revertPattern: /^:rewind:\s([\s\S]*?)\s*This reverts commit (\w*)\./,
+    headerPattern: /^(.{1}) (.*)$/u,
+    headerCorrespondence: [`emoji`, `message`],
+    noteKeywords: [`BREAKING CHANGE`, `BREAKING CHANGES`, `💣`],
+    revertPattern: /^⏪\s([\s\S]*?)\s*This reverts commit (\w*)\./u,
     revertCorrespondence: [`header`, `hash`],
 }
