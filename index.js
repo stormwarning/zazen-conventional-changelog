@@ -7,27 +7,18 @@ const recommendedBumpOpts = require(`./conventional-recommended-bump`)
 const parserOpts = require(`./parser-opts`)
 const writerOpts = require(`./writer-opts`)
 
-function presetOpts (cb) {
-    Q.all([
-        conventionalChangelog,
-        parserOpts,
-        recommendedBumpOpts,
-        writerOpts,
-    ]).spread(
-        (
+module.exports = Q.all([
+    conventionalChangelog,
+    parserOpts,
+    recommendedBumpOpts,
+    writerOpts,
+]).spread(
+    (conventionalChangelog, parserOpts, recommendedBumpOpts, writerOpts) => {
+        return {
             conventionalChangelog,
             parserOpts,
             recommendedBumpOpts,
-            writerOpts
-        ) => {
-            return {
-                conventionalChangelog,
-                parserOpts,
-                recommendedBumpOpts,
-                writerOpts,
-            }
+            writerOpts,
         }
-    )
-}
-
-module.exports = presetOpts
+    }
+)
