@@ -6,23 +6,27 @@
   "homepage": "https://github.com/stormwarning/zazen-conventional-changelog",
   "repository": "stormwarning/zazen-conventional-changelog",
   "version": "0.1.0",
+  "main": "index.js",
   "bin": {
     "release-notes": "bin/cli.js"
   },
   "files": [
+    "bin",
     "conventional-changelog.js",
     "conventional-recommended-bump.js",
-    "index.js",
     "parser-opts.js",
     "templates",
     "writer-opts.js"
   ],
   "scripts": {
+    "_release": "bin/cli.js",
+    "_test": "mocha --timeout=30000",
     "lint": "npm-run-all lint:*",
     "lint:markdown": "remark . -qo",
-    "lint:scripts": "prettier-eslint '**/*.js' --list-different",
-    "release": "bin/cli.js",
-    "_test": "mocha --timeout=30000"
+    "lint:scripts": "prettier-eslint '**/*.js' --list-different"
+  },
+  "config": {
+    "message": "🔖 Release %s"
   },
   "dependencies": {
     "@zazen/commit-types": "^2.0.0",
@@ -54,15 +58,14 @@
     "shelljs": "^0.8.2",
     "through2": "^2.0.3"
   },
+  "keywords": [
+    "conventional-changelog",
+    "preset",
+    "semantic-release"
+  ],
   "publishConfig": {
-    "message": "🔖 Release %s",
     "access": "public"
   },
-  "keywords": [
-    "semantic-release",
-    "conventional-changelog",
-    "preset"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
