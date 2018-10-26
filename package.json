@@ -22,7 +22,7 @@
     "lint:markdown": "remark . -qo",
     "lint:scripts": "prettier-eslint '**/*.js' --list-different",
     "release": "bin/cli.js",
-    "test": "mocha --timeout=30000"
+    "_test": "mocha --timeout=30000"
   },
   "dependencies": {
     "@zazen/commit-types": "^2.0.0",
@@ -54,7 +54,12 @@
     "shelljs": "^0.8.2",
     "through2": "^2.0.3"
   },
+  "publishConfig": {
+    "message": "🔖 Release %s",
+    "access": "public"
+  },
   "keywords": [
+    "semantic-release",
     "conventional-changelog",
     "preset"
   ],
