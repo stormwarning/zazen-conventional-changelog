@@ -25,64 +25,59 @@ betterThanBefore.setups([
         shell.mkdir('git-templates')
         shell.exec('git init --template=./git-templates')
 
-        gitDummyCommit(':gift: first commit')
+        gitDummyCommit('🎁 first commit')
         gitDummyCommit([
-            ':gift: amazing new module',
+            '🎁 amazing new module',
             'BREAKING CHANGE: Not backward compatible.',
         ])
         gitDummyCommit([
-            ':bug:(compile) avoid a bug',
+            '🐛(compile) avoid a bug',
             'BREAKING CHANGE: The Change is huge.',
         ])
-        gitDummyCommit([':hammer:(ngOptions) make it faster', ' closes #1, #2'])
-        gitDummyCommit(':rewind:(ngOptions) bad commit')
-        gitDummyCommit(':bug: oops')
+        gitDummyCommit(['🔨(ngOptions) make it faster', ' closes #1, #2'])
+        gitDummyCommit('⏪(ngOptions) bad commit')
+        gitDummyCommit('🐛 oops')
+    },
+    function () {
+        gitDummyCommit(['🎁(awesome) addresses the issue brought up in #133'])
+    },
+    function () {
+        gitDummyCommit(['🎁(awesome) fix #88'])
+    },
+    function () {
+        gitDummyCommit(['🎁(awesome) issue brought up by @bcoe! on Friday'])
     },
     function () {
         gitDummyCommit([
-            ':gift:(awesome) addresses the issue brought up in #133',
+            '📝(readme) make it clear',
+            'BREAKING CHANGE: The Change is huge.',
         ])
+        gitDummyCommit([
+            '👕(whitespace) make it easier to read',
+            'BREAKING CHANGE: The Change is huge.',
+        ])
+        gitDummyCommit([
+            '🔨(code) change a lot of code',
+            'BREAKING CHANGE: The Change is huge.',
+        ])
+        gitDummyCommit([
+            '✅ more tests',
+            'BREAKING CHANGE: The Change is huge.',
+        ])
+        gitDummyCommit(['📦 bump', 'BREAKING CHANGE: The Change is huge.'])
     },
     function () {
-        gitDummyCommit([':gift:(awesome) fix #88'])
-    },
-    function () {
-        gitDummyCommit([':gift:(awesome) issue brought up by @bcoe! on Friday'])
-    },
-    function () {
-        gitDummyCommit([
-            ':memo:(readme) make it clear',
-            'BREAKING CHANGE: The Change is huge.',
-        ])
-        gitDummyCommit([
-            ':shirt:(whitespace) make it easier to read',
-            'BREAKING CHANGE: The Change is huge.',
-        ])
-        gitDummyCommit([
-            ':hammer:(code) change a lot of code',
-            'BREAKING CHANGE: The Change is huge.',
-        ])
-        gitDummyCommit([
-            ':rotating_light: more tests',
-            'BREAKING CHANGE: The Change is huge.',
-        ])
-        gitDummyCommit([
-            ':package: bump',
-            'BREAKING CHANGE: The Change is huge.',
-        ])
-    },
-    function () {
-        gitDummyCommit([':package: bump', 'BREAKING CHANGES: Also works :)'])
+        gitDummyCommit(['📦 bump', 'BREAKING CHANGES: Also works :)'])
     },
     function () {
         shell.exec('git tag v1.0.0')
-        gitDummyCommit(':gift: some more features')
+        gitDummyCommit('🎁 some more features')
     },
     function () {
-        gitDummyCommit([':gift: implementing #5 by @dlmr', ' closes #10'])
+        gitDummyCommit(['🎁 implementing #5 by @dlmr', ' closes #10'])
     },
     function () {
-        gitDummyCommit([':bug: use npm@5 (@username)'])
+        gitDummyCommit(['🐛 use npm@5 (@username)'])
     },
 ])
 
@@ -108,8 +103,8 @@ describe('zazen preset', function () {
                     )
                     expect(chunk).to.include('Not backward compatible.')
                     expect(chunk).to.include('The Change is huge.')
-                    expect(chunk).to.include('Patch changes')
-                    expect(chunk).to.include('Minor changes')
+                    expect(chunk).to.include('Fixed')
+                    expect(chunk).to.include('Added')
                     expect(chunk).to.include('bad commit')
                     expect(chunk).to.include('BREAKING CHANGES')
 
