@@ -20,12 +20,48 @@ const typeGroups = [
 
 function buildCompareUrl (context) {
     let { repository, repoUrl, previousTag, currentTag } = context
+
     let host = context.host ? `${context.host}/` : ''
     let owner = context.owner ? `${context.owner}/` : ''
     let urlBase = repository ? `${host}${owner}${repository}` : repoUrl
     let compare = `/compare/${previousTag}...${currentTag}`
 
     return `[${context.version}](${urlBase}${compare})`
+}
+
+function buildCommitUrl (commit, context) {
+    let { hash } = commit
+    let { repository, repoUrl } = context
+
+    let host = context.host ? `${context.host}/` : ''
+    let owner = context.owner ? `${context.owner}/` : ''
+    let urlBase = repository ? `${host}${owner}${repository}` : repoUrl
+    let tail = `/${context.commit}/${hash}`
+
+    return `([${hash}](${urlBase}${tail}))`
+}
+
+function buildCommitRefs (commit, context) {
+    let { references } = commit
+    let { repository, repoUrl, linkReferences } = context
+
+    let host = context.host ? `${context.host}/` : ''
+    let owner = context.owner ? `${context.owner}/` : ''
+    let commitRefs = references.map((ref) => {
+        let { issue } = ref
+
+        let refRepo = ref.repository
+        let refOwner = ref.owner ? `${ref.owner}/` : ''
+        let refIssue = `${refOwner}${refRepo}#${issue}`
+        let urlBase = repository ? `${host}${repository}` : repoUrl
+        let refUrl = refRepo ? `${refOwner}${refRepo}` : `${owner}${repository}`
+
+        return linkReferences
+            ? `[${refIssue}](${urlBase}${refUrl}/${context.issue}/${issue})`
+            : refIssue
+    })
+
+    return `, closes ${commitRefs}`
 }
 
 function getWriterOpts () {
@@ -35,7 +71,6 @@ function getWriterOpts () {
          * conditional blocks inside the Markdown template.
          */
         finalizeContext: (context) => {
-            let headingLevel = `##`
             let compareUrl = buildCompareUrl(context)
             let headingVersion = context.linkCompare
                 ? `${compareUrl}`
@@ -43,7 +78,7 @@ function getWriterOpts () {
             let headingTitle = context.title ? ` “${context.title}”` : ''
             let headingDate = context.date ? ` — ${context.date}` : ''
 
-            context.releaseTitle = `${headingLevel} ${headingVersion}${headingTitle}${headingDate}`
+            context.releaseTitle = `## ${headingVersion}${headingTitle}${headingDate}`
 
             return context
         },
@@ -113,6 +148,21 @@ function getWriterOpts () {
 
                 return false
             })
+
+            let commitScope = commit.scope ? ` **${commit.scope}:**` : ''
+            let commitMsg = commit.message || commit.header
+            let commitHash = context.linkReferences
+                ? buildCommitUrl(commit, context)
+                : commit.hash
+            let commitRefs = commit.references.length
+                ? buildCommitRefs(commit, context)
+                : ''
+            let commitBody = commit.body
+                ? ``` \
+                ${commit.body}```
+                : ''
+
+            commit.logString = `- ${currentEmoji}${commitScope} ${commitMsg} ${commitHash} ${commitRefs}${commitBody}`
 
             return commit
         },
