@@ -47,19 +47,23 @@ function buildCommitRefs (commit, context) {
 
     let host = context.host ? `${context.host}/` : ''
     let owner = context.owner ? `${context.owner}/` : ''
-    let commitRefs = references.map((ref) => {
-        let { issue } = ref
+    let commitRefs = references
+        .map((ref) => {
+            let { issue } = ref
 
-        let refRepo = ref.repository
-        let refOwner = ref.owner ? `${ref.owner}/` : ''
-        let refIssue = `${refOwner}${refRepo}#${issue}`
-        let urlBase = repository ? `${host}${repository}` : repoUrl
-        let refUrl = refRepo ? `${refOwner}${refRepo}` : `${owner}${repository}`
+            let refRepo = ref.repository || ''
+            let refOwner = ref.owner ? `${ref.owner}/` : ''
+            let refIssue = `${refOwner}${refRepo}#${issue}`
+            let urlBase = repository ? `${host}` : repoUrl
+            let refUrl = refRepo
+                ? `${refOwner}${refRepo}`
+                : `${owner}${repository}`
 
-        return linkReferences
-            ? `[${refIssue}](${urlBase}${refUrl}/${context.issue}/${issue})`
-            : refIssue
-    })
+            return linkReferences
+                ? `[${refIssue}](${urlBase}${refUrl}/${context.issue}/${issue})`
+                : refIssue
+        })
+        .join(' ')
 
     return `, closes ${commitRefs}`
 }
@@ -162,7 +166,7 @@ function getWriterOpts () {
                 ${commit.body}```
                 : ''
 
-            commit.logString = `- ${currentEmoji}${commitScope} ${commitMsg} ${commitHash} ${commitRefs}${commitBody}`
+            commit.logString = `- ${currentEmoji}${commitScope} ${commitMsg} ${commitHash}${commitRefs}${commitBody}`
 
             return commit
         },
