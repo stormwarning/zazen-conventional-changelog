@@ -26,9 +26,6 @@
     "lint:markdown": "remark . -qo",
     "lint:scripts": "prettier-eslint '**/*.js' --list-different"
   },
-  "config": {
-    "message": "🔖 Release %s"
-  },
   "dependencies": {
     "@zazen/commit-types": "^2.0.0",
     "chalk": "^2.4.1",
@@ -64,9 +61,6 @@
     "preset",
     "semantic-release"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
