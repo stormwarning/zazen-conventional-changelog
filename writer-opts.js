@@ -18,8 +18,35 @@ const typeGroups = [
     'Security',
 ]
 
+function buildCompareUrl (context) {
+    let { repository, repoUrl, previousTag, currentTag } = context
+    let host = context.host ? `${context.host}/` : ''
+    let owner = context.owner ? `${context.owner}/` : ''
+    let urlBase = repository ? `${host}${owner}${repository}` : repoUrl
+    let compare = `/compare/${previousTag}...${currentTag}`
+
+    return `[${context.version}](${urlBase}${compare})`
+}
+
 function getWriterOpts () {
     return {
+        /**
+         * Prepare template strings here so there isn't a bunch of
+         * conditional blocks inside the Markdown template.
+         */
+        finalizeContext: (context) => {
+            let headingLevel = `##`
+            let compareUrl = buildCompareUrl(context)
+            let headingVersion = context.linkCompare
+                ? `${compareUrl}`
+                : `${context.version}`
+            let headingTitle = context.title ? ` “${context.title}”` : ''
+            let headingDate = context.date ? ` — ${context.date}` : ''
+
+            context.releaseTitle = `${headingLevel} ${headingVersion}${headingTitle}${headingDate}`
+
+            return context
+        },
         transform: (commit, context) => {
             let currentEmoji = commit.emoji
             let issues = []
