@@ -162,8 +162,8 @@ function getWriterOpts () {
                 ? buildCommitRefs(commit, context)
                 : ''
             let commitBody = commit.body
-                ? ``` \
-                ${commit.body}```
+                ? ` \
+                ${commit.body}`
                 : ''
 
             commit.logString = `- ${currentEmoji}${commitScope} ${commitMsg} ${commitHash}${commitRefs}${commitBody}`
