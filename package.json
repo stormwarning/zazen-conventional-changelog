@@ -24,7 +24,8 @@
     "_test": "mocha --timeout=30000",
     "lint": "npm-run-all lint:*",
     "lint:markdown": "remark . -qo",
-    "lint:scripts": "prettier-eslint '**/*.js' --list-different"
+    "lint:scripts": "prettier-eslint '**/*.js' --list-different",
+    "test": "npm run lint:scripts"
   },
   "dependencies": {
     "@zazen/commit-types": "^2.0.0",
@@ -53,8 +54,10 @@
     "remark-github": "^7.0.4",
     "remark-preset-lint-markdown-style-guide": "^2.1.2",
     "remark-toc": "^5.0.0",
+    "semantic-release": "^15.10.8",
     "shelljs": "^0.8.2",
-    "through2": "^2.0.3"
+    "through2": "^2.0.3",
+    "travis-deploy-once": "^5.0.9"
   },
   "keywords": [
     "conventional-changelog",
@@ -70,6 +73,38 @@
     "*.js": [
       "prettier-eslint --write",
       "git add"
+    ]
+  },
+  "release": {
+    "config": "./index.js",
+    "plugins": [
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "releaseRules": "./lib/release-rules.js"
+        }
+      ],
+      "@semantic-release/release-notes-generator",
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogTitle": "./lib/changelog-title.js"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "message": "📚 Add ${nextRelease.version} release notes [skip ci]"
+        }
+      ],
+      "@semantic-release/npm",
+      [
+        "@semantic-release/git",
+        {
+          "message": "🔖 Release ${nextRelease.version} [skip ci]"
+        }
+      ],
+      "@semantic-release/github"
     ]
   },
   "remarkConfig": {
