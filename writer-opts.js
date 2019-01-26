@@ -38,7 +38,7 @@ function buildCommitUrl(commit, context) {
     let urlBase = repository ? `${host}${owner}${repository}` : repoUrl
     let tail = `/${context.commit}/${hash}`
 
-    return `([${hash}](${urlBase}${tail}))`
+    return `[[\`${hash}\`](${urlBase}${tail})]`
 }
 
 function buildCommitRefs(commit, context) {
