@@ -50,6 +50,7 @@ betterThanBefore.setups([
     function() {
         gitDummyCommit([
             '📝(readme) make it clear',
+            '- It does one thing\n- And this other thing',
             'BREAKING CHANGE: The Change is huge.',
         ])
         gitDummyCommit([
@@ -182,6 +183,24 @@ describe('zazen preset', function() {
             )
     })
 
+    it('should maintain indentation for a multi-line commit msg body', function(done) {
+        preparing(5)
+
+        conventionalChangelogCore({ config: preset })
+            .on('error', function(err) {
+                done(err)
+            })
+            .pipe(
+                through(function(chunk) {
+                    chunk = chunk.toString()
+
+                    expect(chunk).to.include('  - And this other thing')
+
+                    done()
+                }),
+            )
+    })
+
     // it('should not discard commit if there is BREAKING CHANGE', function (done) {
     //     preparing(5)
 
@@ -206,7 +225,7 @@ describe('zazen preset', function() {
     //         )
     // })
 
-    it('should BREAKING CHANGES the same as BREAKING CHANGE', function(done) {
+    it('should treat BREAKING CHANGES the same as BREAKING CHANGE', function(done) {
         preparing(6)
 
         conventionalChangelogCore({

@@ -38,7 +38,7 @@ function buildCommitUrl(commit, context) {
     let urlBase = repository ? `${host}${owner}${repository}` : repoUrl
     let tail = `/${context.commit}/${hash}`
 
-    return `([${hash}](${urlBase}${tail}))`
+    return `[[\`${hash}\`](${urlBase}${tail})]`
 }
 
 function buildCommitRefs(commit, context) {
@@ -82,7 +82,9 @@ function getWriterOpts() {
             let headingTitle = context.title ? ` “${context.title}”` : ''
             let headingDate = context.date ? ` — ${context.date}` : ''
 
-            context.releaseTitle = `## ${headingVersion}${headingTitle}${headingDate}`
+            context.releaseTitle = `${
+                context.isPatch ? '###' : '##'
+            } ${headingVersion}${headingTitle}${headingDate}`
 
             return context
         },
@@ -161,7 +163,14 @@ function getWriterOpts() {
             let commitRefs = commit.references.length
                 ? buildCommitRefs(commit, context)
                 : ''
-            let commitBody = commit.body ? ` \\\n  ${commit.body}` : ''
+
+            /**
+             * Add two spaces before each line of the message body
+             * to maintain Markdown indentation.
+             */
+            let commitBody = commit.body
+                ? ` \\\n${commit.body.replace(/^.*/gm, `  $&`)}`
+                : ''
 
             commit.logString = `- ${currentEmoji}${commitScope} ${commitMsg} ${commitHash}${commitRefs}${commitBody}`
 
