@@ -82,7 +82,9 @@ function getWriterOpts() {
             let headingTitle = context.title ? ` “${context.title}”` : ''
             let headingDate = context.date ? ` — ${context.date}` : ''
 
-            context.releaseTitle = `## ${headingVersion}${headingTitle}${headingDate}`
+            context.releaseTitle = `${
+                context.isPatch ? '###' : '##'
+            } ${headingVersion}${headingTitle}${headingDate}`
 
             return context
         },
