@@ -2,10 +2,10 @@
 
 const resolve = require(`path`).resolve
 
-const compareFunc = require(`compare-func`)
-const Q = require(`q`)
-const capitalize = require('lodash.capitalize')
 const availableTypes = require('@zazen/commit-types').types
+const compareFunc = require(`compare-func`)
+const capitalize = require('lodash.capitalize')
+const Q = require(`q`)
 
 const readFile = Q.denodeify(require(`fs`).readFile)
 
@@ -18,7 +18,7 @@ const typeGroups = [
     'Security',
 ]
 
-function buildCompareUrl (context) {
+function buildCompareUrl(context) {
     let { repository, repoUrl, previousTag, currentTag } = context
 
     let host = context.host ? `${context.host}/` : ''
@@ -29,7 +29,7 @@ function buildCompareUrl (context) {
     return `[${context.version}](${urlBase}${compare})`
 }
 
-function buildCommitUrl (commit, context) {
+function buildCommitUrl(commit, context) {
     let { hash } = commit
     let { repository, repoUrl } = context
 
@@ -41,7 +41,7 @@ function buildCommitUrl (commit, context) {
     return `([${hash}](${urlBase}${tail}))`
 }
 
-function buildCommitRefs (commit, context) {
+function buildCommitRefs(commit, context) {
     let { references } = commit
     let { repository, repoUrl, linkReferences } = context
 
@@ -68,7 +68,7 @@ function buildCommitRefs (commit, context) {
     return `, closes ${commitRefs}`
 }
 
-function getWriterOpts () {
+function getWriterOpts() {
     return {
         /**
          * Prepare template strings here so there isn't a bunch of
@@ -131,7 +131,7 @@ function getWriterOpts () {
                         (_, issue) => {
                             issues.push(issue)
                             return `[#${issue}](${url}${issue})`
-                        }
+                        },
                     )
                 }
 
@@ -139,7 +139,7 @@ function getWriterOpts () {
                     // User URLs.
                     commit.message = commit.message.replace(
                         /\B@([a-z0-9](?:-?[a-z0-9]){0,38})/g,
-                        `[@$1](${context.host}/$1)`
+                        `[@$1](${context.host}/$1)`,
                     )
                 }
             }

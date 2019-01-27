@@ -79,7 +79,8 @@
     "arrowParens": "always",
     "semi": false,
     "singleQuote": true,
-    "tabWidth": 4
+    "tabWidth": 4,
+    "trailingComma": "all"
   },
   "release": {
     "config": "./index.js",

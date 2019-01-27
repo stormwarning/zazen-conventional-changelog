@@ -105,7 +105,7 @@ module.exports = require('yargs')
     .example('$0', 'Update changelog and tag release')
     .example(
         '$0 -m "%s: see changelog for details"',
-        'Update changelog and tag release with custom commit message'
+        'Update changelog and tag release with custom commit message',
     )
     .pkgConf('standard-version')
     .wrap(97)
