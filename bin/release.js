@@ -4,17 +4,17 @@ const chalk = require('chalk')
 const conventionalChangelog = require('conventional-changelog')
 const accessSync = require('fs-access').sync
 
+const config = require('../index')
 const checkpoint = require('./checkpoint')
 const writeFile = require('./write-file')
-const config = require('../index')
 
-module.exports = function release (args, newVersion) {
+module.exports = function release(args, newVersion) {
     if (args.skip.changelog) return Promise.resolve()
 
     return outputChangelog(args, newVersion)
 }
 
-function outputChangelog (args, newVersion) {
+function outputChangelog(args, newVersion) {
     return new Promise((resolve, reject) => {
         createIfMissing(args)
 
@@ -45,16 +45,16 @@ All notable changes to this project will be documented in this file.
                 config,
             },
             context,
-            { merges: null }
-        ).on('error', function (err) {
+            { merges: null },
+        ).on('error', function(err) {
             return reject(err)
         })
 
-        changelogStream.on('data', function (buffer) {
+        changelogStream.on('data', function(buffer) {
             content += buffer.toString()
         })
 
-        changelogStream.on('end', function () {
+        changelogStream.on('end', function() {
             checkpoint(args, 'outputting changes to %s', [args.infile])
 
             if (args.dryRun) {
@@ -64,7 +64,9 @@ All notable changes to this project will be documented in this file.
                 writeFile(
                     args,
                     args.infile,
-                    header + '\n' + (content + oldContent).replace(/\n+$/, '\n')
+                    header +
+                        '\n' +
+                        (content + oldContent).replace(/\n+$/, '\n'),
                 )
             }
 
@@ -73,7 +75,7 @@ All notable changes to this project will be documented in this file.
     })
 }
 
-function createIfMissing (args) {
+function createIfMissing(args) {
     try {
         accessSync(args.infile, fs.F_OK)
     } catch (err) {

@@ -17,7 +17,7 @@ var describe = mocha.describe
 var it = mocha.it
 
 betterThanBefore.setups([
-    function () {
+    function() {
         shell.config.silent = true
         shell.rm('-rf', 'tmp')
         shell.mkdir('tmp')
@@ -38,16 +38,16 @@ betterThanBefore.setups([
         gitDummyCommit('⏪(ngOptions) bad commit')
         gitDummyCommit('🐛 oops')
     },
-    function () {
+    function() {
         gitDummyCommit(['🎁(awesome) addresses the issue brought up in #133'])
     },
-    function () {
+    function() {
         gitDummyCommit(['🎁(awesome) fix #88'])
     },
-    function () {
+    function() {
         gitDummyCommit(['🎁(awesome) issue brought up by @bcoe! on Friday'])
     },
-    function () {
+    function() {
         gitDummyCommit([
             '📝(readme) make it clear',
             'BREAKING CHANGE: The Change is huge.',
@@ -66,40 +66,40 @@ betterThanBefore.setups([
         ])
         gitDummyCommit(['📦 bump', 'BREAKING CHANGE: The Change is huge.'])
     },
-    function () {
+    function() {
         gitDummyCommit(['📦 bump', 'BREAKING CHANGES: Also works :)'])
     },
-    function () {
+    function() {
         shell.exec('git tag v1.0.0')
         gitDummyCommit('🎁 some more features')
     },
-    function () {
+    function() {
         gitDummyCommit(['🎁 implementing #5 by @dlmr', ' closes #10'])
     },
-    function () {
+    function() {
         gitDummyCommit(['🐛 use npm@5 (@username)'])
     },
 ])
 
-describe('zazen preset', function () {
-    it('should work if there is no semver tag', function (done) {
+describe('zazen preset', function() {
+    it('should work if there is no semver tag', function(done) {
         preparing(1)
 
         conventionalChangelogCore({
             config: preset,
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
-                through(function (chunk) {
+                through(function(chunk) {
                     chunk = chunk.toString()
 
                     expect(chunk).to.include('amazing new module')
                     expect(chunk).to.include('avoid a bug')
                     expect(chunk).to.include('make it faster')
                     expect(chunk).to.include(
-                        ', closes [#1](https://github.com/stormwarning/zazen-conventional-changelog/issues/1) [#2](https://github.com/stormwarning/zazen-conventional-changelog/issues/2)'
+                        ', closes [#1](https://github.com/stormwarning/zazen-conventional-changelog/issues/1) [#2](https://github.com/stormwarning/zazen-conventional-changelog/issues/2)',
                     )
                     expect(chunk).to.include('Not backward compatible.')
                     expect(chunk).to.include('The Change is huge.')
@@ -117,68 +117,68 @@ describe('zazen preset', function () {
                     // expect(chunk).to.not.include(': Not backward compatible.')
 
                     done()
-                })
+                }),
             )
     })
 
-    it('should replace #[0-9]+ with GitHub issue URL', function (done) {
+    it('should replace #[0-9]+ with GitHub issue URL', function(done) {
         preparing(2)
 
         conventionalChangelogCore({
             config: preset,
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
-                through(function (chunk) {
+                through(function(chunk) {
                     chunk = chunk.toString()
                     expect(chunk).to.include(
-                        '[#133](https://github.com/stormwarning/zazen-conventional-changelog/issues/133)'
+                        '[#133](https://github.com/stormwarning/zazen-conventional-changelog/issues/133)',
                     )
                     done()
-                })
+                }),
             )
     })
 
-    it('should remove the issues that already appear in the subject', function (done) {
+    it('should remove the issues that already appear in the subject', function(done) {
         preparing(3)
 
         conventionalChangelogCore({
             config: preset,
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
-                through(function (chunk) {
+                through(function(chunk) {
                     chunk = chunk.toString()
                     expect(chunk).to.include(
-                        '[#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)'
+                        '[#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)',
                     )
                     expect(chunk).to.not.include(
-                        'closes [#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)'
+                        'closes [#88](https://github.com/stormwarning/zazen-conventional-changelog/issues/88)',
                     )
                     done()
-                })
+                }),
             )
     })
 
-    it('should replace @username with GitHub user URL', function (done) {
+    it('should replace @username with GitHub user URL', function(done) {
         preparing(4)
 
         conventionalChangelogCore({
             config: preset,
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
-                through(function (chunk) {
+                through(function(chunk) {
                     chunk = chunk.toString()
                     expect(chunk).to.include('[@bcoe](https://github.com/bcoe)')
                     done()
-                })
+                }),
             )
     })
 
@@ -206,27 +206,27 @@ describe('zazen preset', function () {
     //         )
     // })
 
-    it('should BREAKING CHANGES the same as BREAKING CHANGE', function (done) {
+    it('should BREAKING CHANGES the same as BREAKING CHANGE', function(done) {
         preparing(6)
 
         conventionalChangelogCore({
             config: preset,
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
-                through(function (chunk) {
+                through(function(chunk) {
                     chunk = chunk.toString()
 
                     expect(chunk).to.include('Also works :)')
 
                     done()
-                })
+                }),
             )
     })
 
-    it('should work if there is a semver tag', function (done) {
+    it('should work if there is a semver tag', function(done) {
         preparing(7)
         var i = 0
 
@@ -234,12 +234,12 @@ describe('zazen preset', function () {
             config: preset,
             outputUnreleased: true,
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
                 through(
-                    function (chunk, enc, cb) {
+                    function(chunk, enc, cb) {
                         chunk = chunk.toString()
 
                         expect(chunk).to.include('some more features')
@@ -248,15 +248,15 @@ describe('zazen preset', function () {
                         i++
                         cb()
                     },
-                    function () {
+                    function() {
                         expect(i).to.equal(1)
                         done()
-                    }
-                )
+                    },
+                ),
             )
     })
 
-    it('should work with unknown host', function (done) {
+    it('should work with unknown host', function(done) {
         preparing(7)
         var i = 0
 
@@ -266,12 +266,12 @@ describe('zazen preset', function () {
                 path: path.join(__dirname, 'fixtures/_unknown-host.json'),
             },
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
                 through(
-                    function (chunk, enc, cb) {
+                    function(chunk, enc, cb) {
                         chunk = chunk.toString()
 
                         // expect(chunk).to.include('(http://unknown/compare')
@@ -280,15 +280,15 @@ describe('zazen preset', function () {
                         i++
                         cb()
                     },
-                    function () {
+                    function() {
                         expect(i).to.equal(1)
                         done()
-                    }
-                )
+                    },
+                ),
             )
     })
 
-    it('should work specifying where to find a package.json using conventional-changelog-core', function (done) {
+    it('should work specifying where to find a package.json using conventional-changelog-core', function(done) {
         preparing(8)
         var i = 0
 
@@ -298,32 +298,32 @@ describe('zazen preset', function () {
                 path: path.join(__dirname, 'fixtures/_known-host.json'),
             },
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
                 through(
-                    function (chunk, enc, cb) {
+                    function(chunk, enc, cb) {
                         chunk = chunk.toString()
 
                         // expect(chunk).to.include(
                         //     '(https://github.com/conventional-changelog/example/compare'
                         // )
                         expect(chunk).to.include(
-                            '](https://github.com/conventional-changelog/example/commit/'
+                            '](https://github.com/conventional-changelog/example/commit/',
                         )
                         expect(chunk).to.include(
-                            '](https://github.com/conventional-changelog/example/issues/'
+                            '](https://github.com/conventional-changelog/example/issues/',
                         )
 
                         i++
                         cb()
                     },
-                    function () {
+                    function() {
                         expect(i).to.equal(1)
                         done()
-                    }
-                )
+                    },
+                ),
             )
     })
 
@@ -363,7 +363,7 @@ describe('zazen preset', function () {
     //         )
     // })
 
-    it('should support non public GitHub repository locations', function (done) {
+    it('should support non public GitHub repository locations', function(done) {
         preparing(8)
 
         conventionalChangelogCore({
@@ -372,31 +372,31 @@ describe('zazen preset', function () {
                 path: path.join(__dirname, 'fixtures/_ghe-host.json'),
             },
         })
-            .on('error', function (err) {
+            .on('error', function(err) {
                 done(err)
             })
             .pipe(
-                through(function (chunk) {
+                through(function(chunk) {
                     chunk = chunk.toString()
 
                     expect(chunk).to.include(
-                        '(https://github.internal.example.com/dlmr'
+                        '(https://github.internal.example.com/dlmr',
                     )
                     // expect(chunk).to.include(
                     //     '(https://github.internal.example.com/conventional-changelog/internal/compare'
                     // )
                     expect(chunk).to.include(
-                        '](https://github.internal.example.com/conventional-changelog/internal/commit/'
+                        '](https://github.internal.example.com/conventional-changelog/internal/commit/',
                     )
                     expect(chunk).to.include(
-                        '5](https://github.internal.example.com/conventional-changelog/internal/issues/5'
+                        '5](https://github.internal.example.com/conventional-changelog/internal/issues/5',
                     )
                     expect(chunk).to.include(
-                        ' closes [#10](https://github.internal.example.com/conventional-changelog/internal/issues/10)'
+                        ' closes [#10](https://github.internal.example.com/conventional-changelog/internal/issues/10)',
                     )
 
                     done()
-                })
+                }),
             )
     })
 
