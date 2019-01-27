@@ -21,11 +21,11 @@
   ],
   "scripts": {
     "_release": "bin/cli.js",
-    "_test": "mocha --timeout=30000",
     "lint": "npm-run-all lint:*",
     "lint:markdown": "remark .",
     "lint:scripts": "prettier-eslint '**/*.js' --list-different",
-    "test": "npm run lint:scripts"
+    "semantic-release": "semantic-release",
+    "test": "mocha --timeout=30000"
   },
   "dependencies": {
     "@zazen/commit-types": "^2.0.0",
