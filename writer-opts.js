@@ -161,7 +161,14 @@ function getWriterOpts() {
             let commitRefs = commit.references.length
                 ? buildCommitRefs(commit, context)
                 : ''
-            let commitBody = commit.body ? ` \\\n  ${commit.body}` : ''
+
+            /**
+             * Add two spaces before each line of the message body
+             * to maintain Markdown indentation.
+             */
+            let commitBody = commit.body
+                ? ` \\\n${commit.body.replace(/^.*/gm, `  $&`)}`
+                : ''
 
             commit.logString = `- ${currentEmoji}${commitScope} ${commitMsg} ${commitHash}${commitRefs}${commitBody}`
 
