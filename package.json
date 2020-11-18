@@ -58,7 +58,7 @@
     "remark-github": "^7.0.4",
     "remark-preset-lint-markdown-style-guide": "^2.1.2",
     "remark-toc": "^5.0.0",
-    "semantic-release": "^15.10.8",
+    "semantic-release": "^17.2.3",
     "shelljs": "^0.8.2",
     "through2": "^3.0.0",
     "travis-deploy-once": "^5.0.9"
